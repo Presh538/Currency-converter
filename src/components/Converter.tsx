@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowUpDown } from 'lucide-react';
 import CurrencyInput from './CurrencyInput';
 import { fetchCoinGeckoRates, calculateRates, INITIAL_CURRENCY_DATA, type ExchangeRates, type CurrencyInfo } from '../services/api';
 import './Converter.css';
@@ -94,7 +93,14 @@ const Converter: React.FC = () => {
 
             <div className="swap-container">
                 <button className="swap-button" onClick={handleSwap} aria-label="Swap currencies">
-                    <ArrowUpDown size={16} />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', transform: 'rotate(180deg)' }}>
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
                 </button>
             </div>
 

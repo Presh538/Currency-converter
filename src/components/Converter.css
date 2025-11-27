@@ -51,6 +51,12 @@
     background-color: #f9fafb;
 }
 
+.swap-button svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
 .rate-info {
     text-align: center;
     color: rgba(255, 255, 255, 0.7);
