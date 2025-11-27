@@ -131,7 +131,7 @@ const CurrencyConverter: React.FC<CurrencyConverterProps> = ({
                 />
 
                 <div className="rate-info">
-                    1 {currency1} = {rates[currency2]} {currency2}
+                    1 {currency1} = {rates[currency2]?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {currency2}
                 </div>
 
                 <button className="action-button" style={{ backgroundColor: accentColor }}>

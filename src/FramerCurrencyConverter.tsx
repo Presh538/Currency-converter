@@ -8,7 +8,19 @@ import CurrencyConverter from "./CurrencyConverter"
  * @framerSupportedLayoutWidth any
  * @framerSupportedLayoutHeight any
  */
-export default function CurrencyConverterWrapper(props) {
+interface Props {
+    defaultFromCurrency: string
+    defaultToCurrency: string
+    showTitle: boolean
+    title: string
+    buttonText: string
+    accentColor: string
+    backgroundColor: string
+    width: number
+    height: number
+}
+
+export default function CurrencyConverterWrapper(props: Props) {
     const {
         defaultFromCurrency,
         defaultToCurrency,
