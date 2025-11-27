@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from 'react';
+import { ArrowUpDown } from 'lucide-react';
 import CurrencyInput from './CurrencyInput';
-import { fetchExchangeRates, type ExchangeRates } from '../services/api';
+import { fetchCoinGeckoRates, calculateRates, INITIAL_CURRENCY_DATA, type ExchangeRates, type CurrencyInfo } from '../services/api';
 import './Converter.css';
 
 const Converter: React.FC = () => {
-    const [amount1, setAmount1] = useState<string>('1');
+    const [amount1, setAmount1] = useState<string>('0');
     const [amount2, setAmount2] = useState<string>('');
     const [currency1, setCurrency1] = useState<string>('USD');
     const [currency2, setCurrency2] = useState<string>('EUR');
+    const [currencyData, setCurrencyData] = useState<{ [key: string]: CurrencyInfo }>(INITIAL_CURRENCY_DATA);
     const [rates, setRates] = useState<ExchangeRates>({});
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const getRates = async () => {
-            const data = await fetchExchangeRates(currency1);
-            setRates(data);
+        const initData = async () => {
+            const data = await fetchCoinGeckoRates();
+            setCurrencyData(data);
             setLoading(false);
         };
-        getRates();
-    }, [currency1]);
+        initData();
+    }, []);
+
+    useEffect(() => {
+        if (!loading && currencyData[currency1]) {
+            const newRates = calculateRates(currency1, currencyData);
+            setRates(newRates);
+        }
+    }, [currency1, currencyData, loading]);
 
     useEffect(() => {
         if (rates[currency2]) {
@@ -79,20 +88,13 @@ const Converter: React.FC = () => {
                 currency={currency1}
                 onAmountChange={handleAmount1Change}
                 onCurrencyChange={handleCurrency1Change}
-                currencies={Object.keys(rates)}
+                currencies={Object.keys(currencyData)}
+                currencyData={currencyData}
             />
 
             <div className="swap-container">
                 <button className="swap-button" onClick={handleSwap} aria-label="Swap currencies">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <polyline points="19 12 12 19 5 12"></polyline>
-                    </svg>
-                    {/* Using a simple down/up arrow pair or similar for swap */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', transform: 'rotate(180deg)' }}>
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <polyline points="19 12 12 19 5 12"></polyline>
-                    </svg>
+                    <ArrowUpDown size={16} />
                 </button>
             </div>
 
@@ -102,7 +104,8 @@ const Converter: React.FC = () => {
                 currency={currency2}
                 onAmountChange={handleAmount2Change}
                 onCurrencyChange={handleCurrency2Change}
-                currencies={Object.keys(rates)}
+                currencies={Object.keys(currencyData)}
+                currencyData={currencyData}
                 readOnly={false} // Allow editing both sides
             />
 

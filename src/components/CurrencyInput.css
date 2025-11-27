@@ -1,25 +1,22 @@
 .currency-input-container {
-  background: #f3f4f6;
-  /* Gray 100 */
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 8px;
-  transition: background 0.3s ease;
-  border: 1px solid transparent;
+  background-color: #F1F3F4;
+  /* Updated to match design */
+  border-radius: 1rem;
+  /* Updated to match design */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.3s ease;
 }
 
-.currency-input-container:hover {
-  background: #e5e7eb;
-  /* Gray 200 */
-  border-color: #d1d5db;
+.currency-input-container:focus-within {
+  box-shadow: 0 0 0 2px #E5E7EB;
 }
 
 .input-label {
-  display: block;
-  font-size: 0.9rem;
-  color: #4b5563;
-  /* Gray 600 */
-  margin-bottom: 8px;
+  font-size: 0.875rem;
+  color: #6B7280;
   font-weight: 500;
 }
 
@@ -27,72 +24,168 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  /* For absolute positioning of dropdown */
 }
 
 .amount-input {
   background: transparent;
   border: none;
+  outline: none;
   color: #111827;
-  /* Gray 900 */
   font-weight: 600;
   width: 60%;
-  outline: none;
-  transition: font-size 0.2s ease-out;
-  /* Smooth font size transition */
+  /* font-family inherited from root */
+  transition: font-size 0.2s ease;
   padding: 0;
   margin: 0;
   line-height: 1.1;
 }
 
 .amount-input::placeholder {
-  color: #9ca3af;
-  /* Gray 400 */
+  color: #9CA3AF;
 }
 
-.currency-selector {
+/* Custom Dropdown Styles */
+.custom-dropdown {
   position: relative;
+  user-select: none;
+}
+
+.dropdown-trigger {
   display: flex;
   align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
 }
 
-.currency-flag {
-  position: absolute;
-  left: 10px;
-  width: 20px;
-  height: 15px;
+.dropdown-trigger:hover {
+  background: #F9FAFB;
+}
+
+.trigger-flag {
+  width: 24px;
+  height: 16px;
+  /* 3:2 aspect ratio roughly */
   border-radius: 2px;
   object-fit: cover;
-  z-index: 1;
-  pointer-events: none;
 }
 
-.currency-select {
-  appearance: none;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 24px;
-  padding: 8px 16px;
-  padding-right: 36px;
-  /* Space for arrow */
+.trigger-code {
+  font-weight: 600;
   color: #111827;
   font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
+}
+
+.trigger-arrow {
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  width: 280px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+  border: 1px solid #E5E7EB;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-search {
+  padding: 12px;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.dropdown-search input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 0.875rem;
   outline: none;
-  transition: all 0.2s ease;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 16px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.currency-select:hover {
-  background-color: #f9fafb;
-  border-color: #d1d5db;
-}
-
-.currency-select option {
-  background-color: #ffffff;
   color: #111827;
+  transition: border-color 0.2s;
+}
+
+.dropdown-search input:focus {
+  border-color: #8B5CF6;
+  /* Purple accent */
+}
+
+.dropdown-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.dropdown-item:hover {
+  background: #F3F4F6;
+}
+
+.dropdown-item.selected {
+  background: #F5F3FF;
+  /* Light purple bg */
+}
+
+.item-flag {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  /* Circular flags in list as per some designs, or keep rect? Reference showed rect in trigger, circle in list? Let's check image. Image shows circle in list. */
+  object-fit: cover;
+  border: 1px solid #E5E7EB;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-code {
+  font-weight: 700;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.item-name {
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.no-results {
+  padding: 16px;
+  text-align: center;
+  color: #6B7280;
+  font-size: 0.875rem;
 }

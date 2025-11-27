@@ -7,8 +7,6 @@
   background-color: #0f172a;
   /* Dark slate background */
   position: relative;
-  overflow: hidden;
-  font-family: 'Instrument Sans', sans-serif;
 }
 
 .background-blobs {
