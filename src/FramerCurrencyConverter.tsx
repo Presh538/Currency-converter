@@ -1,5 +1,4 @@
 import { addPropertyControls, ControlType } from "framer"
-import React from "react"
 import CurrencyConverter from "./CurrencyConverter"
 
 /**
